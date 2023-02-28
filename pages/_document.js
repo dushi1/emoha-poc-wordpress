@@ -4,8 +4,9 @@ export default function Document() {
     return (
         <Html>
             <Head>
-                <link rel="stylesheet" href="https://emoha.com/blogs/wp-content/themes/magbook/style.css" />
-                <link rel="stylesheet" href="https://emoha.com/blogs/wp-content/themes/magbook-child/style.css" />
+                <link rel="stylesheet" href="https://testing.emoha.com/blogs/wp-content/themes/magbook/css/editor-style.css" />
+                {/* <link rel="stylesheet" href="https://testing.emoha.com/blogs/wp-content/themes/magbook/assets/font-awesome/css/font-awesome.css" />
+                <link rel="stylesheet" href="https://testing.emoha.com/blogs/wp-content/themes/magbook/inc/css/magbook-customizer.css" /> */}
             </Head>
             <body>
                 <Main />
