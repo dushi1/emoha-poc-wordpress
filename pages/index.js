@@ -6,18 +6,6 @@ import Posts from '../components/posts'
 
 
 export default function Home({ posts, media }) {
-  // useEffect(() => {
-  //   axios.get('https://emoha.com/blogs/wp-json/wp/v2/posts', {
-  //     headers: {
-  //       "Access-Control-Allow-Origin": "*"
-  //     }
-  //   }).then((res) => {
-  //     console.log(res);
-  //     setData(res)
-  //   }).catch((err) => {
-  //     console.log(err);
-  //   })
-  // })
   return (
     <>
       <Head>
@@ -27,7 +15,7 @@ export default function Home({ posts, media }) {
       <div style={{ width: '100vw !important', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
         {
           posts.map((data) => {
-            return <Posts key={data.id} posts={posts} media={media} id={data.id} />
+            return <Posts key={data.id} posts={data} media={data.featured_media} id={data.id} />
           })
         }
       </div>
@@ -39,13 +27,10 @@ export default function Home({ posts, media }) {
 export async function getStaticProps() {
   const res = await fetch("https://emoha.com/blogs/wp-json/wp/v2/posts");
   const posts = await res.json();
-  const resp = await fetch("https://emoha.com/blogs/wp-json/wp/v2/media");
-  const media = await resp.json();
 
   return {
     props: {
-      posts,
-      media
+      posts
     },
     // revalidate: 10,
   };

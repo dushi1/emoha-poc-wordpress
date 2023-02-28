@@ -1,15 +1,42 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
+const Posts = ({ media, posts }) => {
+    const [pic, setPic] = useState(null)
+    const [categories, setCategories] = useState(null)
+    const [tags, setTags] = useState(null)
 
-const Posts = ({ media, posts, id }) => {
-    const image = media.filter((data) => data.post === id)
-    const actualdata = posts.filter((data) => data.id === id)
-    console.log(actualdata[0].title?.rendered);
+    useEffect(() => {
+        const effect = async () => {
+            fetch(`/api/media/${media}`)
+                .then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    setPic(data)
+                });
+            fetch(`/api/categories/${posts?.categories[0]}`)
+                .then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    setCategories(data)
+                });
+            fetch(`/api/tags/${posts?.tags[0]}`)
+                .then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    setTags(data)
+                });
+        }
+        effect()
+    }, [])
+
     return (
-        <div style={{ width: "100%", maxWidth: '1200px', margin: '50px' }}>
-            <img src={image[0]?.source_url} width="100%" height={200} />
-            <h1 style={{ margin: '20px 0' }} dangerouslySetInnerHTML={{ __html: actualdata[0].title?.rendered }} />
-            <div style={{ margin: '20px 0', paddingBottom: '50px' }} dangerouslySetInnerHTML={{ __html: actualdata[0].content?.rendered }} />
-        </div>
+        <Link href={`/about/${posts.id}`} style={{ width: "100%", maxWidth: '1200px', margin: '50px' }}>
+            <img src={pic?.link} width={500} height={500} />
+            <h4 style={{ margin: '20px 0' }} dangerouslySetInnerHTML={{ __html: posts?.title?.rendered }} />
+            <h4>Categories : {categories?.name}</h4>
+            <h4>Tags : {tags?.name}</h4>
+
+        </Link>
     )
 }
 
