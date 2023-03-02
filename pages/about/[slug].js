@@ -14,7 +14,7 @@ export default function About({ posts }) {
         effect()
     }, [])
     return (
-        <div style={{ width: "100%", maxWidth: '1200px', margin: '50px' }}>
+        <div>
             <img src={pic?.link} width={500} height={500} />
             <h1 style={{ margin: '20px 0' }} dangerouslySetInnerHTML={{ __html: posts?.title?.rendered }} />
             <div style={{ margin: '20px 0', paddingBottom: '50px' }} dangerouslySetInnerHTML={{ __html: posts?.content?.rendered }} />

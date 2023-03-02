@@ -13,24 +13,28 @@ const Posts = ({ media, posts }) => {
                 }).then(function (data) {
                     setPic(data)
                 });
-            fetch(`/api/categories/${posts?.categories[0]}`)
-                .then(function (response) {
-                    return response.json();
-                }).then(function (data) {
-                    setCategories(data)
-                });
-            fetch(`/api/tags/${posts?.tags[0]}`)
-                .then(function (response) {
-                    return response.json();
-                }).then(function (data) {
-                    setTags(data)
-                });
+            if (posts?.categories) {
+                fetch(`/api/categories/${posts?.categories[0]}`)
+                    .then(function (response) {
+                        return response.json();
+                    }).then(function (data) {
+                        setCategories(data)
+                    });
+            }
+            if (posts?.tags) {
+                fetch(`/api/tags/${posts?.tags[0]}`)
+                    .then(function (response) {
+                        return response.json();
+                    }).then(function (data) {
+                        setTags(data)
+                    });
+            }
         }
         effect()
     }, [])
 
     return (
-        <Link href={`/about/${posts.id}`} style={{ width: "100%", maxWidth: '1200px', margin: '50px' }}>
+        <Link href={`/about/${posts.id}`} style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', height: '50em' }}>
             <img src={pic?.link} width={500} height={500} />
             <h4 style={{ margin: '20px 0' }} dangerouslySetInnerHTML={{ __html: posts?.title?.rendered }} />
             <h4>Categories : {categories?.name}</h4>
