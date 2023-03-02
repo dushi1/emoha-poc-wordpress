@@ -34,7 +34,7 @@ const Posts = ({ media, posts }) => {
     }, [])
 
     return (
-        <Link href={`/about/${posts.id}`} style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', height: '50em' }}>
+        <Link href={`/about/${posts.id}`} as={`/about/${posts.id}`} style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', height: '50em' }}>
             <img src={pic?.link} width={500} height={500} />
             <h4 style={{ margin: '20px 0' }} dangerouslySetInnerHTML={{ __html: posts?.title?.rendered }} />
             <h4>Categories : {categories?.name}</h4>

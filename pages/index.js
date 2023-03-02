@@ -6,7 +6,7 @@ import Posts from '../components/posts'
 
 
 export default function Home({ posts }) {
-  console.log(posts);
+
   return (
     <>
       <Head>
