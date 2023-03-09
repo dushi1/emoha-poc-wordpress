@@ -33,12 +33,12 @@ const Posts = ({ media, posts }) => {
         effect()
     }, [])
     return (
-        <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', height: '30em', padding: 20 }}>
-            <a href={`/about/${posts.id}`}>
+        <div style={{ display: 'flex', width: 'auto', alignItems: 'center', flexDirection: 'column', height: '30em', padding: 20 }}>
+            <a href={`/about/${posts.slug}`}>
                 <img src={pic?.link} style={{ width: '100%' }} />
                 <div>Categories : {categories?.name}</div>
                 <div>Tags : {tags?.name}</div>
-                <h4 style={{ margin: '20px 0' }} dangerouslySetInnerHTML={{ __html: posts?.title?.rendered }} />
+                <p style={{ margin: '20px 0' }} dangerouslySetInnerHTML={{ __html: posts?.title?.rendered }} />
             </a>
         </div>
     )
