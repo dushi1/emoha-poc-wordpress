@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-const Posts = ({ media, posts }) => {
+import Image from 'next/image'
+
+const Posts = ({ media, posts, img }) => {
     const [pic, setPic] = useState(null)
     const [categories, setCategories] = useState(null)
     const [tags, setTags] = useState(null)
@@ -35,7 +37,15 @@ const Posts = ({ media, posts }) => {
     return (
         <div style={{ display: 'flex', width: 'auto', alignItems: 'center', flexDirection: 'column', height: '30em', padding: 20 }}>
             <a href={`/about/${posts.slug}`}>
-                <img src={pic?.link} style={{ width: '100%' }} />
+                <Image src={img.find((obj) => posts.id === obj.post)?.link ? img.find((obj) => posts.id === obj.post)?.link : pic?.link}
+                    width={700}
+                    height={475}
+                    sizes="100vw"
+                    style={{
+                        width: '100%',
+                        height: 'auto',
+                    }}
+                    priority={true} />
                 <div>Categories : {categories?.name}</div>
                 <div>Tags : {tags?.name}</div>
                 <p style={{ margin: '20px 0' }} dangerouslySetInnerHTML={{ __html: posts?.title?.rendered }} />

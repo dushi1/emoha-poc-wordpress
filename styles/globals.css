@@ -96,10 +96,62 @@ button.rec-dot {
 }
 
 .truncate {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  line-clamp: 2;
-  -webkit-box-orient: vertical;
+  padding: 0 10px
+}
 
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+
+.grid-cat {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.grid-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  background-color: #cf2e2e;
+  cursor: pointer;
+}
+
+.grid-button:hover {
+  background-color: #000;
+}
+
+.grid-button:active {
+  background-color: #454545
+}
+
+.grid-button p {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  color: #fff;
+
+}
+
+.tags {
+  background-color: red;
+  display: inline-block;
+  color: #fff;
+  border-color: black;
+  border-width: 1px;
+  border-style: solid;
+  margin: 10px 0;
+  margin-right: 5px;
+  padding: 5px;
+  width: auto;
+  cursor: pointer;
+}
+
+.categories:hover {
+  cursor: pointer;
 }

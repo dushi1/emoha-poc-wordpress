@@ -33,17 +33,7 @@ export default function About() {
     )
 }
 
-// export async function getStaticPaths() {
-//     return {
-//         paths: [
-//             // String variant:
-//             '/about/slug',
-//             // Object variant:
-//             { params: { slug: '9501' } },
-//         ],
-//         fallback: true,
-//     }
-// }
+
 
 // export async function getStaticProps({ params }) {
 //     const res = await fetch(`https://emoha.com/blogs/wp-json/wp/v2/posts/${params.slug}`)
