@@ -1,9 +1,12 @@
 import React from "react";
+import { useRouter } from "next/router";
 import Head from "next/head";
 import Posts from "../../components/posts";
+import axios from "axios";
+import moment from "moment";
 
-const Categoreies = ({ posts, postImages }) => {
-  console.log(posts);
+const Archives = ({ posts, postImages }) => {
+  const router = useRouter();
   const onSubmit = async (e) => {
     e.preventDefault();
   };
@@ -61,7 +64,6 @@ const Categoreies = ({ posts, postImages }) => {
         }}
       >
         <div style={{ width: "100%", maxWidth: "1200px" }}>
-          <h3>Categories</h3>
           <div className="grid-cat">
             {posts.length === 0 ? (
               <div>No posts found!!!</div>
@@ -86,12 +88,24 @@ const Categoreies = ({ posts, postImages }) => {
 };
 
 export async function getStaticPaths() {
-  const categories = await fetch(
-    `https://emoha.com/blogs//wp-json/wp/v2/categories?per_page=100`
+  const allPostsApi = Array.from({ length: 9 }).map(async (_, i) => {
+    const res = await axios.get(
+      `https://emoha.com/blogs/wp-json/wp/v2/posts?per_page=100&page=${i + 1}`
+    );
+    return res.data;
+  });
+  const allPosts = await Promise.all(allPostsApi);
+  const obj = {};
+  allPosts.flat(9).forEach((data) => {
+    obj[moment(data.date).format("MMMM YYYY")] = data.date;
+  });
+  const neww = Object.keys(obj).sort((a, b) =>
+    moment(a.date, "DD-MM-YYYY").diff(moment(b.date, "DD-MM-YYYY"))
   );
-  const categoriesArray = await categories.json();
-  const array = categoriesArray.map((data) => {
-    return { params: { slug: data.slug } };
+  const array = neww.map((data) => {
+    return {
+      params: { archives: `${data.split(" ")[0]}-${data.split(" ")[1]}` },
+    };
   });
   return {
     paths: array,
@@ -100,26 +114,37 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
+  const param = params.archives;
+  const month = moment().month(param.split("-")[0]).format("M");
+  const dateRange1 = moment()
+    .set({
+      month: month - 1,
+      year: param.split("-")[1],
+      date: 1,
+    })
+    .startOf("day")
+    .format("YYYY-MM-DDT00:00:00");
+  const newDate = dateRange1;
+  const dateRange2 = moment(newDate)
+    .add(1, "M")
+    .startOf("day")
+    .format("YYYY-MM-DDT00:00:00");
+
   const res = await fetch(
-    `https://emoha.com/blogs/wp-json/wp/v2/categories?slug=${params.slug}`
+    `https://emoha.com/blogs/wp-json/wp/v2/posts?before=${dateRange2}&after=${dateRange1}`
   );
-  const category = await res.json();
-  const postsQuery = await fetch(
-    `https://emoha.com/blogs/wp-json/wp/v2/posts?categories=${category[0].id}`
-  );
-  const posts = await postsQuery.json();
-  const postImages = posts.map(async (obj) => {
+
+  const postdates = await res.json();
+
+  const postImages = postdates.map(async (obj) => {
     const response = await fetch(
       `https://emoha.com/blogs/wp-json/wp/v2/media/${obj?.featured_media}`
     );
     return response.json();
   });
   return {
-    props: {
-      posts,
-      postImages: await Promise.all(postImages),
-    },
+    props: { posts: postdates, postImages: await Promise.all(postImages) },
   };
 }
 
-export default Categoreies;
+export default Archives;
