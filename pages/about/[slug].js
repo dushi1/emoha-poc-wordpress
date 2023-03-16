@@ -40,13 +40,32 @@ export default function About({
             );
           }
           if (data === "robots") {
-            return;
+            let content = ''
+            const robo = Object.keys(posts[0]?.yoast_head_json[data]).map((obj) => {
+              content += posts[0]?.yoast_head_json[data][obj] + ', '
+            })
+
+            return <meta
+              name="robots"
+              content={content}
+            />
           }
           if (
             typeof posts[0]?.yoast_head_json[data] === "object" ||
             Array.isArray(posts[0]?.yoast_head_json[data])
           ) {
-            return;
+            if (data === 'twitter_misc') {
+              const twitter = Object.keys(posts[0]?.yoast_head_json[data]).map((obj) => {
+                return <meta name={obj} content={posts[0]?.yoast_head_json[data][obj]} />
+              })
+              return twitter
+            }
+            if (data === 'og_image') {
+              const ogimage = Object.keys(posts[0]?.yoast_head_json[data][0]).map((obj) => {
+                return <meta name={obj} content={posts[0]?.yoast_head_json[data][0][obj]} />
+              })
+              return ogimage
+            }
           }
           return (
             <meta
@@ -94,34 +113,34 @@ export default function About({
               </div>
               {toggle === 1
                 ? commentsArray.map((data) => {
-                    return (
+                  return (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        borderWidth: 1,
+                        borderStyle: "solid",
+                        borderColor: "black",
+                      }}
+                    >
+                      <p style={{ padding: 0, margin: 0 }}>
+                        {data.author_name}
+                      </p>
                       <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          borderWidth: 1,
-                          borderStyle: "solid",
-                          borderColor: "black",
+                        dangerouslySetInnerHTML={{
+                          __html: data?.content?.rendered,
                         }}
-                      >
-                        <p style={{ padding: 0, margin: 0 }}>
-                          {data.author_name}
-                        </p>
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: data?.content?.rendered,
-                          }}
-                        />
-                      </div>
-                    );
-                  })
+                      />
+                    </div>
+                  );
+                })
                 : tagsArray.flat(11).map((data) => {
-                    return (
-                      <a className="tags" href={`tags/${data.slug}`}>
-                        {data.name}
-                      </a>
-                    );
-                  })}
+                  return (
+                    <a className="tags" href={`tags/${data.slug}`}>
+                      {data.name}
+                    </a>
+                  );
+                })}
               <h3>Categories</h3>
               <div style={{ display: "flex", flexDirection: "column" }}>
                 {categoriesArray.map((data) => {
