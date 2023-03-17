@@ -19,6 +19,7 @@ export default function Home({
   commentsArray,
   categoriesArray,
   allPosts,
+  metatag
 }) {
   const search = useRef("");
   useEffect(() => {
@@ -30,11 +31,12 @@ export default function Home({
       moment(a.date, "DD-MM-YYYY").diff(moment(b.date, "DD-MM-YYYY"))
     );
     setArchive(neww);
-  });
+  }, []);
   const [archive, setArchive] = useState([]);
   const [data, setData] = useState([]);
   const [postImages, setPostImages] = useState(images);
   const [toggle, setToggle] = useState(1);
+
   const onSubmit = async (e) => {
     if (search.current.value === "") {
       setData([]);
@@ -47,14 +49,60 @@ export default function Home({
           setData(data);
         });
     }
-
     e.preventDefault();
   };
+  console.log(metatag);
   return (
     <>
       <Head>
-        <title>Emoha</title>
-        <link rel="icon" href="/favicon.ico" />
+        {Object.keys(metatag.json).map((data) => {
+          if (data === "title") {
+            return <title>{metatag?.json[data]}</title>;
+          }
+          if (data === "description") {
+            return (
+              <meta
+                name="description"
+                content={metatag?.json[data]}
+              />
+            );
+          }
+          if (data === "robots") {
+            let content = ''
+            const robo = Object.keys(metatag?.json[data]).map((obj) => {
+              content += metatag?.json[data][obj] + ', '
+            })
+
+            return <meta
+              name="robots"
+              content={content}
+            />
+          }
+          if (
+            typeof metatag?.json[data] === "object" ||
+            Array.isArray(metatag?.json[data])
+          ) {
+            if (data === 'twitter_misc') {
+              const twitter = Object.keys(metatag?.json[data]).map((obj) => {
+                return <meta name={obj} content={metatag?.json[data][obj]} />
+              })
+              return twitter
+            }
+            if (data === 'og_image') {
+              const ogimage = Object.keys(metatag?.json[data][0]).map((obj) => {
+                return <meta name={obj} content={metatag?.json[data][0][obj]} />
+              })
+              return ogimage
+            }
+            return;
+          }
+          return (
+            <meta
+              name={data.replace("_", ":")}
+              content={metatag?.json[data]}
+            />
+          );
+        })}
       </Head>
       <div
         style={{
@@ -112,7 +160,7 @@ export default function Home({
             <div className="title-container">
               <h4
                 style={{ margin: "20px 0" }}
-                dangerouslySetInnerHTML={{ __html: posts[0]?.title?.rendered }}
+                dangerouslySetInnerHTML={{ __html: metatag?.title?.rendered }}
               />
             </div>
           </div>
@@ -191,34 +239,34 @@ export default function Home({
               </div>
               {toggle === 1
                 ? commentsArray.map((data) => {
-                    return (
+                  return (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        borderWidth: 1,
+                        borderStyle: "solid",
+                        borderColor: "black",
+                      }}
+                    >
+                      <p style={{ padding: 0, margin: 0 }}>
+                        {data.author_name}
+                      </p>
                       <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          borderWidth: 1,
-                          borderStyle: "solid",
-                          borderColor: "black",
+                        dangerouslySetInnerHTML={{
+                          __html: data?.content?.rendered,
                         }}
-                      >
-                        <p style={{ padding: 0, margin: 0 }}>
-                          {data.author_name}
-                        </p>
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: data?.content?.rendered,
-                          }}
-                        />
-                      </div>
-                    );
-                  })
+                      />
+                    </div>
+                  );
+                })
                 : tagsArray.flat(11).map((data) => {
-                    return (
-                      <a className="tags" href={`tags/${data.slug}`}>
-                        {data.name}
-                      </a>
-                    );
-                  })}
+                  return (
+                    <a className="tags" href={`tags/${data.slug}`}>
+                      {data.name}
+                    </a>
+                  );
+                })}
               <h3>Categories</h3>
               <div style={{ display: "flex", flexDirection: "column" }}>
                 {categoriesArray.map((data) => {
@@ -234,9 +282,8 @@ export default function Home({
                 {archive.map((data) => {
                   return (
                     <a
-                      href={`archives/${data.split(" ")[0]}-${
-                        data.split(" ")[1]
-                      }`}
+                      href={`archives/${data.split(" ")[0]}-${data.split(" ")[1]
+                        }`}
                       className="categories"
                     >
                       {data}
@@ -319,6 +366,9 @@ export async function getStaticProps() {
     return res.data;
   });
 
+  const meta = await fetch(`https://emoha.com/blogs/wp-json/yoast/v1/get_head?url=https://emoha.com/blogs`)
+  const jsonResp = await meta.json();
+
   return {
     props: {
       posts,
@@ -333,6 +383,7 @@ export async function getStaticProps() {
       commentsArray,
       categoriesArray,
       allPosts: await Promise.all(allPostsApi),
+      metatag: jsonResp
     },
   };
 }
