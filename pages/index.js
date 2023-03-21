@@ -7,14 +7,14 @@ import axios from "axios";
 import moment from "moment";
 
 export default function Home({
-  // posts,
-  // health,
+  posts,
+  health,
   images,
   catimages,
-  // eye,
-  // fit,
-  // fitimages,
-  // eyeimages,
+  eye,
+  fit,
+  fitimages,
+  eyeimages,
   tagsArray,
   commentsArray,
   categoriesArray,
@@ -210,7 +210,7 @@ export default function Home({
           }
 
           <div className="grid">
-            {/* <div>
+            <div>
               <h3>Health</h3>
               <CatList posts={health} img={catimages} />
 
@@ -219,7 +219,7 @@ export default function Home({
 
               <h3>Eyecare</h3>
               <CatList posts={eye} img={eyeimages} />
-            </div> */}
+            </div>
             <div>
               <div className="grid-container">
                 <div className="grid-button">
@@ -305,38 +305,38 @@ export async function getStaticProps() {
     return response.json();
   });
 
-  // const resHealth = await fetch(
-  //   `https://emoha.com/blogs//wp-json/wp/v2/posts?categories=10`
-  // );
-  // const health = await resHealth.json();
-  // const catimages = health.map(async (obj) => {
-  //   const response = await fetch(
-  //     `https://emoha.com/blogs/wp-json/wp/v2/media/${obj?.featured_media}`
-  //   );
-  //   return response.json();
-  // });
+  const resHealth = await fetch(
+    `https://emoha.com/blogs//wp-json/wp/v2/posts?categories=10`
+  );
+  const health = await resHealth.json();
+  const catimages = health.map(async (obj) => {
+    const response = await fetch(
+      `https://emoha.com/blogs/wp-json/wp/v2/media/${obj?.featured_media}`
+    );
+    return response.json();
+  });
 
-  // const eyecare = await fetch(
-  //   `https://emoha.com/blogs//wp-json/wp/v2/posts?categories=27`
-  // );
-  // const eye = await eyecare.json();
-  // const eyeimages = eye.map(async (obj) => {
-  //   const response = await fetch(
-  //     `https://emoha.com/blogs/wp-json/wp/v2/media/${obj?.featured_media}`
-  //   );
-  //   return response.json();
-  // });
+  const eyecare = await fetch(
+    `https://emoha.com/blogs//wp-json/wp/v2/posts?categories=27`
+  );
+  const eye = await eyecare.json();
+  const eyeimages = eye.map(async (obj) => {
+    const response = await fetch(
+      `https://emoha.com/blogs/wp-json/wp/v2/media/${obj?.featured_media}`
+    );
+    return response.json();
+  });
 
-  // const fitness = await fetch(
-  //   `https://emoha.com/blogs//wp-json/wp/v2/posts?categories=18`
-  // );
-  // const fit = await fitness.json();
-  // const fitimages = fit.map(async (obj) => {
-  //   const response = await fetch(
-  //     `https://emoha.com/blogs/wp-json/wp/v2/media/${obj?.featured_media}`
-  //   );
-  //   return response.json();
-  // });
+  const fitness = await fetch(
+    `https://emoha.com/blogs//wp-json/wp/v2/posts?categories=18`
+  );
+  const fit = await fitness.json();
+  const fitimages = fit.map(async (obj) => {
+    const response = await fetch(
+      `https://emoha.com/blogs/wp-json/wp/v2/media/${obj?.featured_media}`
+    );
+    return response.json();
+  });
 
   const tagsAll = Array.from({ length: 11 }).map(async (_, i) => {
     const response = await fetch(
@@ -370,13 +370,13 @@ export async function getStaticProps() {
   return {
     props: {
       posts,
-      // health,
-      // eye,
-      // fit,
-      // images: await Promise.all(postimages),
-      // catimages: await Promise.all(catimages),
-      // fitimages: await Promise.all(fitimages),
-      // eyeimages: await Promise.all(eyeimages),
+      health,
+      eye,
+      fit,
+      images: await Promise.all(postimages),
+      catimages: await Promise.all(catimages),
+      fitimages: await Promise.all(fitimages),
+      eyeimages: await Promise.all(eyeimages),
       tagsArray: await Promise.all(tagsAll),
       commentsArray,
       categoriesArray,
