@@ -294,7 +294,7 @@ export default function Home({
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const res = await fetch(`https://emoha.com/blogs/wp-json/wp/v2/posts`);
   const posts = await res.json();
   const postimages = posts.map(async (obj) => {

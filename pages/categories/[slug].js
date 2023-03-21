@@ -85,21 +85,21 @@ const Categoreies = ({ posts, postImages }) => {
   );
 };
 
-export async function getStaticPaths() {
-  const categories = await fetch(
-    `https://emoha.com/blogs//wp-json/wp/v2/categories?per_page=100`
-  );
-  const categoriesArray = await categories.json();
-  const array = categoriesArray.map((data) => {
-    return { params: { slug: data.slug } };
-  });
-  return {
-    paths: array,
-    fallback: false,
-  };
-}
+// export async function getStaticPaths() {
+//   const categories = await fetch(
+//     `https://emoha.com/blogs//wp-json/wp/v2/categories?per_page=100`
+//   );
+//   const categoriesArray = await categories.json();
+//   const array = categoriesArray.map((data) => {
+//     return { params: { slug: data.slug } };
+//   });
+//   return {
+//     paths: array,
+//     fallback: false,
+//   };
+// }
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   const res = await fetch(
     `https://emoha.com/blogs/wp-json/wp/v2/categories?slug=${params.slug}`
   );
