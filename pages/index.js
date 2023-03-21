@@ -2,7 +2,7 @@ import Head from "next/head";
 import React, { useEffect, useRef, useState } from "react";
 import Posts from "../components/posts";
 import CatList from "../components/categoriesList";
-import Carousel from "react-elastic-carousel";
+// import Carousel from "react-elastic-carousel";
 import axios from "axios";
 import moment from "moment";
 
@@ -192,21 +192,21 @@ export default function Home({
                 </div>
               </div>
             </div>
-          ) : (
-            <Carousel itemsToShow={3} itemsToScroll={3} showEmptySlots={false}>
-              {posts.map((obj) => {
-                return (
-                  <Posts
-                    key={obj.id}
-                    posts={obj}
-                    media={obj.featured_media}
-                    img={postImages}
-                    id={obj.id}
-                  />
-                );
-              })}
-            </Carousel>
-          )}
+          ) : null
+          // <Carousel itemsToShow={3} itemsToScroll={3} showEmptySlots={false}>
+          //   {posts.map((obj) => {
+          //     return (
+          //       <Posts
+          //         key={obj.id}
+          //         posts={obj}
+          //         media={obj.featured_media}
+          //         img={postImages}
+          //         id={obj.id}
+          //       />
+          //     );
+          //   })}
+          // </Carousel>
+          }
 
           <div className="grid">
             <div>
