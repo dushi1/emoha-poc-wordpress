@@ -161,51 +161,52 @@ export default function Home({
           <h3>
             {data.length !== 0 ? "Search Result" : "Today's Feature News"}
           </h3>
-          {data.length !== 0 ? (
-            <div
-              style={{
-                width: "100vw !important",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginTop: 120,
-              }}
-            >
-              <div style={{ width: "100%", maxWidth: "1200px" }}>
-                <h3>Categories</h3>
-                <div className="grid-cat">
-                  {data.length === 0 ? (
-                    <div>No posts found!!!</div>
-                  ) : (
-                    data.map((obj) => {
-                      return (
-                        <Posts
-                          key={obj.id}
-                          posts={obj}
-                          media={obj.featured_media}
-                          img={postImages}
-                          id={obj.id}
-                        />
-                      );
-                    })
-                  )}
+          {
+            data.length !== 0 ? (
+              <div
+                style={{
+                  width: "100vw !important",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginTop: 120,
+                }}
+              >
+                <div style={{ width: "100%", maxWidth: "1200px" }}>
+                  <h3>Categories</h3>
+                  <div className="grid-cat">
+                    {data.length === 0 ? (
+                      <div>No posts found!!!</div>
+                    ) : (
+                      data.map((obj) => {
+                        return (
+                          <Posts
+                            key={obj.id}
+                            posts={obj}
+                            media={obj.featured_media}
+                            img={postImages}
+                            id={obj.id}
+                          />
+                        );
+                      })
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ) : null
-          // <Carousel itemsToShow={3} itemsToScroll={3} showEmptySlots={false}>
-          //   {posts.map((obj) => {
-          //     return (
-          //       <Posts
-          //         key={obj.id}
-          //         posts={obj}
-          //         media={obj.featured_media}
-          //         img={postImages}
-          //         id={obj.id}
-          //       />
-          //     );
-          //   })}
-          // </Carousel>
+            ) : null
+            // <Carousel itemsToShow={3} itemsToScroll={3} showEmptySlots={false}>
+            //   {posts.map((obj) => {
+            //     return (
+            //       <Posts
+            //         key={obj.id}
+            //         posts={obj}
+            //         media={obj.featured_media}
+            //         img={postImages}
+            //         id={obj.id}
+            //       />
+            //     );
+            //   })}
+            // </Carousel>
           }
 
           <div className="grid">
@@ -294,7 +295,7 @@ export default function Home({
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const res = await fetch(`https://emoha.com/blogs/wp-json/wp/v2/posts`);
   const posts = await res.json();
   const postimages = posts.map(async (obj) => {
