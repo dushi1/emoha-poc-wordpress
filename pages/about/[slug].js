@@ -190,25 +190,25 @@ export default function About({
   );
 }
 
-export async function getStaticPaths() {
-  const tagsAll = Array.from({ length: 9 }).map(async (obj, i) => {
-    const response = await fetch(
-      `https://emoha.com/blogs/wp-json/wp/v2/posts?per_page=100&page=${i + 1}`
-    );
-    return response.json();
-  });
-  const tagsArray = await Promise.all(tagsAll);
-  const array = tagsArray.flat(9).map((data) => {
-    return { params: { slug: data?.slug } };
-  });
+// export async function getStaticPaths() {
+//   const tagsAll = Array.from({ length: 9 }).map(async (obj, i) => {
+//     const response = await fetch(
+//       `https://emoha.com/blogs/wp-json/wp/v2/posts?per_page=100&page=${i + 1}`
+//     );
+//     return response.json();
+//   });
+//   const tagsArray = await Promise.all(tagsAll);
+//   const array = tagsArray.flat(9).map((data) => {
+//     return { params: { slug: data?.slug } };
+//   });
 
-  return {
-    paths: array,
-    fallback: false,
-  };
-}
+//   return {
+//     paths: array,
+//     fallback: false,
+//   };
+// }
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   const res = await fetch(
     `https://emoha.com/blogs/wp-json/wp/v2/posts?slug=${params.slug}`
   );
