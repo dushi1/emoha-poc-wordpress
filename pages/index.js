@@ -2,7 +2,7 @@ import Head from "next/head";
 import React, { useEffect, useRef, useState } from "react";
 import Posts from "../components/posts";
 import CatList from "../components/categoriesList";
-// import Carousel from "react-elastic-carousel";
+import Carousel from "react-elastic-carousel";
 import axios from "axios";
 import moment from "moment";
 
@@ -51,7 +51,6 @@ export default function Home({
     }
     e.preventDefault();
   };
-  console.log(metatag);
   return (
     <>
       <Head>
@@ -161,53 +160,52 @@ export default function Home({
           <h3>
             {data.length !== 0 ? "Search Result" : "Today's Feature News"}
           </h3>
-          {
-            data.length !== 0 ? (
-              <div
-                style={{
-                  width: "100vw !important",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginTop: 120,
-                }}
-              >
-                <div style={{ width: "100%", maxWidth: "1200px" }}>
-                  <h3>Categories</h3>
-                  <div className="grid-cat">
-                    {data.length === 0 ? (
-                      <div>No posts found!!!</div>
-                    ) : (
-                      data.map((obj) => {
-                        return (
-                          <Posts
-                            key={obj.id}
-                            posts={obj}
-                            media={obj.featured_media}
-                            img={postImages}
-                            id={obj.id}
-                          />
-                        );
-                      })
-                    )}
-                  </div>
+          {data.length !== 0 ? (
+            <div
+              style={{
+                width: "100vw !important",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginTop: 120,
+              }}
+            >
+              <div style={{ width: "100%", maxWidth: "1200px" }}>
+                <h3>Categories</h3>
+                <div className="grid-cat">
+                  {data.length === 0 ? (
+                    <div>No posts found!!!</div>
+                  ) : (
+                    data.map((obj) => {
+                      return (
+                        <Posts
+                          key={obj.id}
+                          posts={obj}
+                          media={obj.featured_media}
+                          img={postImages}
+                          id={obj.id}
+                        />
+                      );
+                    })
+                  )}
                 </div>
               </div>
-            ) : null
-            // <Carousel itemsToShow={3} itemsToScroll={3} showEmptySlots={false}>
-            //   {posts.map((obj) => {
-            //     return (
-            //       <Posts
-            //         key={obj.id}
-            //         posts={obj}
-            //         media={obj.featured_media}
-            //         img={postImages}
-            //         id={obj.id}
-            //       />
-            //     );
-            //   })}
-            // </Carousel>
-          }
+            </div>
+          ) : (
+            <Carousel itemsToShow={3} itemsToScroll={3} showEmptySlots={false}>
+              {posts.map((obj) => {
+                return (
+                  <Posts
+                    key={obj.id}
+                    posts={obj}
+                    media={obj.featured_media}
+                    img={postImages}
+                    id={obj.id}
+                  />
+                );
+              })}
+            </Carousel>
+          )}
 
           <div className="grid">
             <div>

@@ -1,5 +1,6 @@
 module.exports = {
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
@@ -7,5 +8,7 @@ module.exports = {
       },
     ],
   },
+  assetPrefix: "./",
+  output: "export",
   staticPageGenerationTimeout: 1000,
 };

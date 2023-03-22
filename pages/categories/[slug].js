@@ -3,7 +3,6 @@ import Head from "next/head";
 import Posts from "../../components/posts";
 
 const Categoreies = ({ posts, postImages }) => {
-  console.log(posts);
   const onSubmit = async (e) => {
     e.preventDefault();
   };
@@ -85,21 +84,21 @@ const Categoreies = ({ posts, postImages }) => {
   );
 };
 
-// export async function getStaticPaths() {
-//   const categories = await fetch(
-//     `https://emoha.com/blogs//wp-json/wp/v2/categories?per_page=100`
-//   );
-//   const categoriesArray = await categories.json();
-//   const array = categoriesArray.map((data) => {
-//     return { params: { slug: data.slug } };
-//   });
-//   return {
-//     paths: array,
-//     fallback: false,
-//   };
-// }
+export async function getStaticPaths() {
+  const categories = await fetch(
+    `https://emoha.com/blogs//wp-json/wp/v2/categories?per_page=100`
+  );
+  const categoriesArray = await categories.json();
+  const array = categoriesArray.map((data) => {
+    return { params: { slug: data.slug } };
+  });
+  return {
+    paths: array,
+    fallback: false,
+  };
+}
 
-export async function getServerSideProps({ params }) {
+export async function getStaticProps({ params }) {
   const res = await fetch(
     `https://emoha.com/blogs/wp-json/wp/v2/categories?slug=${params.slug}`
   );

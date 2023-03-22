@@ -80,25 +80,27 @@ const Tags = ({ posts, postImages }) => {
   );
 };
 
-// export async function getStaticPaths() {
-//     const tagg = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+export async function getStaticPaths() {
+  const tagg = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
-//     const tagsAll = tagg.map(async (obj, i) => {
-//         const response = await fetch(`https://emoha.com/blogs/wp-json/wp/v2/tags?per_page=100&page=${i + 1}`)
-//         return response.json();
-//     });
-//     const tagsArray = await Promise.all(tagsAll)
-//     const array = tagsArray.flat(11).map((data) => {
-//         return { params: { slug: data?.slug } }
-//     })
+  const tagsAll = tagg.map(async (obj, i) => {
+    const response = await fetch(
+      `https://emoha.com/blogs/wp-json/wp/v2/tags?per_page=100&page=${i + 1}`
+    );
+    return response.json();
+  });
+  const tagsArray = await Promise.all(tagsAll);
+  const array = tagsArray.flat(11).map((data) => {
+    return { params: { slug: data?.slug } };
+  });
 
-//     return {
-//         paths: array,
-//         fallback: false,
-//     }
-// }
+  return {
+    paths: array,
+    fallback: false,
+  };
+}
 
-export async function getServerSideProps({ params }) {
+export async function getStaticProps({ params }) {
   const res = await fetch(
     `https://emoha.com/blogs/wp-json/wp/v2/tags?slug=${params.slug}`
   );

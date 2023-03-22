@@ -87,33 +87,33 @@ const Archives = ({ posts, postImages }) => {
   );
 };
 
-// export async function getStaticPaths() {
-//   const allPostsApi = Array.from({ length: 9 }).map(async (_, i) => {
-//     const res = await axios.get(
-//       `https://emoha.com/blogs/wp-json/wp/v2/posts?per_page=100&page=${i + 1}`
-//     );
-//     return res.data;
-//   });
-//   const allPosts = await Promise.all(allPostsApi);
-//   const obj = {};
-//   allPosts.flat(9).forEach((data) => {
-//     obj[moment(data.date).format("MMMM YYYY")] = data.date;
-//   });
-//   const neww = Object.keys(obj).sort((a, b) =>
-//     moment(a.date, "DD-MM-YYYY").diff(moment(b.date, "DD-MM-YYYY"))
-//   );
-//   const array = neww.map((data) => {
-//     return {
-//       params: { archives: `${data.split(" ")[0]}-${data.split(" ")[1]}` },
-//     };
-//   });
-//   return {
-//     paths: array,
-//     fallback: false,
-//   };
-// }
+export async function getStaticPaths() {
+  const allPostsApi = Array.from({ length: 9 }).map(async (_, i) => {
+    const res = await axios.get(
+      `https://emoha.com/blogs/wp-json/wp/v2/posts?per_page=100&page=${i + 1}`
+    );
+    return res.data;
+  });
+  const allPosts = await Promise.all(allPostsApi);
+  const obj = {};
+  allPosts.flat(9).forEach((data) => {
+    obj[moment(data.date).format("MMMM YYYY")] = data.date;
+  });
+  const neww = Object.keys(obj).sort((a, b) =>
+    moment(a.date, "DD-MM-YYYY").diff(moment(b.date, "DD-MM-YYYY"))
+  );
+  const array = neww.map((data) => {
+    return {
+      params: { archives: `${data.split(" ")[0]}-${data.split(" ")[1]}` },
+    };
+  });
+  return {
+    paths: array,
+    fallback: false,
+  };
+}
 
-export async function getServerSideProps({ params }) {
+export async function getStaticProps({ params }) {
   const param = params.archives;
   const month = moment().month(param.split("-")[0]).format("M");
   const dateRange1 = moment()
