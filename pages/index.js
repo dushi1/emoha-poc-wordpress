@@ -21,6 +21,7 @@ export default function Home({
   allPosts,
   metatag,
 }) {
+  console.log(metatag);
   const search = useRef("");
   useEffect(() => {
     const obj = {};
@@ -51,7 +52,6 @@ export default function Home({
     }
     e.preventDefault();
   };
-  console.log(metatag);
   return (
     <>
       <Head>
@@ -154,7 +154,7 @@ export default function Home({
             <div className="title-container">
               <h4
                 style={{ margin: "20px 0" }}
-                dangerouslySetInnerHTML={{ __html: metatag?.title?.rendered }}
+                dangerouslySetInnerHTML={{ __html: posts[0]?.title?.rendered }}
               />
             </div>
           </div>
