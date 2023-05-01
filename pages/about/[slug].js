@@ -7,7 +7,7 @@ export default function About({
   posts,
   postImages,
   // allPosts,
-  tagsArray,
+  // tagsArray,
   commentsArray,
   categoriesArray,
 }) {
@@ -151,13 +151,7 @@ export default function About({
                       </div>
                     );
                   })
-                : tagsArray.flat(11).map((data) => {
-                    return (
-                      <a className="tags" href={`tags/${data.slug}`}>
-                        {data.name}
-                      </a>
-                    );
-                  })}
+                : null}
               <h3>Categories</h3>
               <div style={{ display: "flex", flexDirection: "column" }}>
                 {categoriesArray.map((data) => {
@@ -219,12 +213,12 @@ export async function getStaticProps({ params }) {
     `https://emoha.com/blogs/wp-json/wp/v2/media/${posts[0]?.featured_media}`
   );
   const postImages = await response.json();
-  const tagsAll = Array.from({ length: 11 }).map(async (_, i) => {
-    const response = await fetch(
-      `https://emoha.com/blogs//wp-json/wp/v2/tags?per_page=100&page=${i + 1}`
-    );
-    return response.json();
-  });
+  // const tagsAll = Array.from({ length: 11 }).map(async (_, i) => {
+  //   const response = await fetch(
+  //     `https://emoha.com/blogs//wp-json/wp/v2/tags?per_page=100&page=${i + 1}`
+  //   );
+  //   return response.json();
+  // });
 
   const comments = await fetch(
     `https://emoha.com/blogs//wp-json/wp/v2/comments`
@@ -248,7 +242,7 @@ export async function getStaticProps({ params }) {
       posts,
       postImages,
       // allPosts: await Promise.all(allPostsApi),
-      tagsArray: await Promise.all(tagsAll),
+      // tagsArray: await Promise.all(tagsAll),
       commentsArray,
       categoriesArray,
     },

@@ -1,15 +1,12 @@
 html {
-  /* height: 100vh; */
   padding: 0;
   margin: 0;
-  width: 100vw;
 }
 
 body {
-  /* height: 100vh; */
   padding: 0;
   margin: 0;
-  width: 100vw;
+  min-width: fit-content;
 }
 
 a {
@@ -44,8 +41,6 @@ button {
   font-weight: bold;
 }
 
-
-
 canvas {
   position: fixed;
   left: 50%;
@@ -63,7 +58,6 @@ canvas {
   width: 100%;
   background-color: lightgray;
   height: 4em;
-
 }
 
 .trend {
@@ -96,7 +90,7 @@ button.rec-dot {
 }
 
 .truncate {
-  padding: 0 10px
+  padding: 0 10px;
 }
 
 .grid {
@@ -128,14 +122,13 @@ button.rec-dot {
 }
 
 .grid-button:active {
-  background-color: #454545
+  background-color: #454545;
 }
 
 .grid-button p {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   font-weight: bold;
   color: #fff;
-
 }
 
 .tags {
@@ -154,4 +147,53 @@ button.rec-dot {
 
 .categories:hover {
   cursor: pointer;
+}
+
+.grid-prac {
+  display: grid;
+  height: 100vh;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  gap: 10px;
+  position: sticky;
+  top: 0;
+  background-color: bisque;
+}
+
+.grid-prac div {
+  background-color: white;
+}
+
+.diva {
+  height: 100vh;
+  background-color: red;
+}
+
+.photo1 {
+  transform: rotate(15deg);
+}
+
+.photo1animate {
+  animation: mymove 4s;
+}
+
+@keyframes mymove {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.photo2 {
+  transform: rotate(-15deg);
+}
+
+.photo2animate {
+  animation: mymove 4s;
+  animation-delay: 4s;
+  animation-fill-mode: backwards;
 }
